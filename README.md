@@ -7,46 +7,41 @@
 A Python-powered Discord VPS deployment bot. Follow this guide to install all dependencies, configure your environment variables directly from the terminal, and keep your bot running 24/7 using Systemd.
 
 ---
+apt install python3-pip -y
 
-📡 View Live Console Logs
+pip install davey --break-system-packages --ignore-installed
+pip install discord --break-system-packages --ignore-installed
+pip install dotenv --break-system-packages --ignore-installed
+pip install PyNaCl --break-system-packages --ignore-installed
+pip install paramiko --break-system-packages --ignore-installed
+pip install flask --break-system-packages --ignore-installed
+pip install flask_cors --break-system-packages --ignore-installed
+pip install argon2-cffi --break-system-packages --ignore-installed
 
-journalctl -u bot -f
+cp test.env .env
 
-🔄 Restart Bot
+# SETUP THE .env FILE
 
-systemctl restart bot
+# INSIDE THE .env FILE CAN PUT THE VIRABLES WITHOUT USE nano OR OTHERS CAN SETUP BY TERMINAL AND ALSO SHOWING WHICH VIRABLES IS SETUPING LIKE SHOWING DISCORD_BOT_TOKEN= LIKE THIS OK
 
-▶️ Start Bot
+sudo nano /etc/systemd/system/bot.service
 
-systemctl start bot
+[Unit]
+Description=Vps Deploy Bot
+After=network.target
 
-⛔ Stop Bot
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/python3 /root/bot.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
 
-systemctl stop bot
+[Install]
+WantedBy=multi-user.target
 
-❌ Disable Automatic Startup
 
-systemctl disable bot
-
----
-
-🛡️ Security
-
-- 🔐 Keep your Discord token private.
-- 🚫 Never upload ".env" to GitHub.
-- 📁 Add ".env" to ".gitignore".
-- ⚠️ Only run scripts you trust.
-
-🎉 Installation Completed!
-
-Congratulations! Your Fai Free VPS Deploy Bot is configured for 24/7 operation using Systemd.
-
----
-
-<p align="center">
-  🚀 <b>Fai Free VPS Deploy Bot</b>
-  <br>
-  💙 Developed by <b>FaiLive2</b>
-  <br>
-  🌐 GitHub: https://github.com/FaiLive2
-</p>
+sudo systemctl daemon-reload
+sudo systemctl restart bot
+sudo systemctl enable bot
