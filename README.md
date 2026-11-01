@@ -1,39 +1,73 @@
-🚀 VPS Deploy Bot
+🚀 Fai Free VPS Deploy Bot
 
-A Python-based Discord VPS Deploy Bot. Follow this guide to install dependencies, configure environment variables, and run the bot continuously using Systemd.
+<p align="center">
+  <b>⚡ Free VPS Deployment | 🤖 Discord Bot | 🔥 24/7 Hosting</b>
+</p>Welcome to Fai Free VPS Deploy Bot! 🎉
+
+A Python-powered Discord VPS deployment bot. Follow this guide to install all dependencies, configure your environment variables directly from the terminal, and keep your bot running 24/7 using Systemd.
+
+---
+
+✨ Features
+
+- 🤖 Discord Bot Integration
+- 🐍 Python-powered
+- 🔐 Secure Environment Variable Setup
+- ⚡ Automatic Bot Restart
+- 🔄 Automatic Startup After VPS Reboot
+- 🖥️ Systemd Service Support
+- 📡 Live Console Logs
 
 📋 Requirements
 
-- Ubuntu/Debian VPS
-- Python 3
-- Root or sudo access
-- Discord Bot Token
+- 🐧 Ubuntu / Debian VPS
+- 🐍 Python 3
+- 🔑 Root or Sudo Access
+- 🤖 Discord Bot Token
 
-1. Update Packages
+---
+
+1️⃣ Update VPS Packages
+
+Run this command:
 
 apt update && apt upgrade -y
+
+Install Python and pip:
+
 apt install python3 python3-pip -y
 
-2. Install Python Dependencies
+2️⃣ Install Required Python Libraries
+
+Copy and execute all commands:
 
 pip install davey --break-system-packages --ignore-installed
+
 pip install discord --break-system-packages --ignore-installed
+
 pip install python-dotenv --break-system-packages --ignore-installed
+
 pip install PyNaCl --break-system-packages --ignore-installed
+
 pip install paramiko --break-system-packages --ignore-installed
+
 pip install flask --break-system-packages --ignore-installed
+
 pip install flask_cors --break-system-packages --ignore-installed
+
 pip install argon2-cffi --break-system-packages --ignore-installed
 
-3. Configure Environment Variables
+3️⃣ Create Environment File
 
-First, create your ".env" file:
+Create your ".env" file from "test.env":
 
 cp test.env .env
 
-You don't need Nano or any other text editor to configure your environment variables.
+4️⃣ ⚙️ Automatic .env Configuration
 
-Run this command to configure them directly through the terminal:
+🔥 No Nano, no manual editing!
+
+This Python script automatically detects variables from your "test.env" configuration and asks you to enter their values directly in the terminal.
 
 python3 - <<'PY'
 import getpass
@@ -42,13 +76,14 @@ from pathlib import Path
 env_file = Path(".env")
 
 if not env_file.exists():
-    print("ERROR: .env file not found!")
+    print("❌ ERROR: .env file not found!")
     raise SystemExit(1)
 
 lines = env_file.read_text().splitlines()
 updated = []
 
-print("\n========== ENVIRONMENT SETUP ==========\n")
+print("\n🚀 FAI VPS ENVIRONMENT SETUP")
+print("=" * 40)
 
 for line in lines:
     stripped = line.strip()
@@ -64,40 +99,43 @@ for line in lines:
         updated.append(line)
         continue
 
-    print(f"Setting up: {key}=")
-    value = getpass.getpass(f"Enter {key}: ")
+    print(f"\n⚙️ Setting up: {key}=")
+    value = getpass.getpass(f"🔑 Enter {key}: ")
 
     if value:
         updated.append(f"{key}={value}")
-        print(f"{key}= [CONFIGURED]\n")
+        print(f"✅ {key}= [CONFIGURED]")
     else:
         updated.append(line)
-        print(f"{key}= [UNCHANGED]\n")
+        print(f"⏭️ {key}= [UNCHANGED]")
 
 env_file.write_text("\n".join(updated) + "\n")
 
-print("======================================")
-print("Environment configuration completed!")
+print("\n" + "=" * 40)
+print("🎉 ENVIRONMENT CONFIGURATION COMPLETED!")
+print("🚀 Your .env file is ready!")
 PY
 
-The script automatically detects variables inside "test.env", asks you to enter their values, and saves everything into ".env".
+📝 Example Environment Variables
 
-Example:
+Your "test.env" may contain:
 
-DISCORD_BOT_TOKEN=your_discord_bot_token
+DISCORD_BOT_TOKEN=
 
-Important: Never share your ".env" file or Discord Bot Token publicly. Add ".env" to ".gitignore".
+The script will automatically detect the variable and request its value.
 
-4. Create Systemd Service
+🔒 Security: Never upload ".env" to GitHub or share your Discord Bot Token.
+
+5️⃣ 🖥️ Create Systemd Service
 
 Create the service file:
 
 sudo nano /etc/systemd/system/bot.service
 
-Paste the following configuration:
+Paste this complete configuration:
 
 [Unit]
-Description=Vps Deploy Bot
+Description=Fai Free VPS Deploy Bot
 After=network.target
 
 [Service]
@@ -111,46 +149,65 @@ Environment=PYTHONUNBUFFERED=1
 [Install]
 WantedBy=multi-user.target
 
-Save and exit.
+Save the file and exit Nano.
 
-5. Enable and Start the Bot
+6️⃣ 🚀 Start Your Bot 24/7
 
-Run these commands:
+Execute all commands:
 
 sudo systemctl daemon-reload
-sudo systemctl enable bot
+
 sudo systemctl restart bot
 
-Your bot will now automatically restart if it crashes and start again when your VPS reboots.
+sudo systemctl enable bot
 
-6. Check Bot Status
+🎉 Your bot is now configured to start automatically and restart if it crashes.
 
-Check whether your bot is running:
+7️⃣ 📊 Bot Management Commands
+
+🟢 Check Bot Status
 
 systemctl status bot
 
-View live bot logs:
+📡 View Live Console Logs
 
 journalctl -u bot -f
 
-Restart:
+🔄 Restart Bot
 
 systemctl restart bot
 
-Stop:
-
-systemctl stop bot
-
-Start:
+▶️ Start Bot
 
 systemctl start bot
 
-🎉 Installation Completed!
+⛔ Stop Bot
 
-Your VPS Deploy Bot is now configured to run continuously using Systemd.
+systemctl stop bot
+
+❌ Disable Automatic Startup
+
+systemctl disable bot
 
 ---
 
-Developed by FaiLive2
+🛡️ Security
 
-GitHub: https://github.com/FaiLive2# Fai-advance-free-d-vps
+- 🔐 Keep your Discord token private.
+- 🚫 Never upload ".env" to GitHub.
+- 📁 Add ".env" to ".gitignore".
+- ⚠️ Only run scripts you trust.
+
+🎉 Installation Completed!
+
+Congratulations! Your Fai Free VPS Deploy Bot is configured for 24/7 operation using Systemd.
+
+---
+
+<p align="center">
+  🚀 <b>Fai Free VPS Deploy Bot</b>
+  <br>
+  💙 Developed by <b>FaiLive2</b>
+  <br>
+  🌐 GitHub: https://github.com/FaiLive2
+</p>
